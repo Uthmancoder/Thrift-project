@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,15 +12,46 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import FetchUserByToken from "./FetchUserByToken";
+import AllUsers from "../Redux/AllUsers";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
 const AppNav = () => {
-    const pages = ["Products", "Pricing", "Blog"];
-    const smallpages = ["Dashboard", "Groups", "Account","Messages", "Settings", "Log out"];
-    const settings = ["Profile", "Account", "Dashboard", "Logout"];
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
+  const pages = ["Products", "Pricing", "Blog"];
+  const smallpages = [
+    "Dashboard",
+    "Groups",
+    "Account",
+    "Messages",
+    "Settings",
+    "Log out",
+  ];
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const userdata = useSelector((state) => state.AllUsers);
+  const username = userdata.username;
+  
+  console.log(username);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    
+  const Usertoken = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!Usertoken) {
+      navigate("/signup");
+      alert("User not found, try signing up for a new account");
+    } else {
+      FetchUserByToken(Usertoken, dispatch);
+    }
+  }, [Usertoken, navigate, dispatch]);
+
+  // ...
+
   // navigation menu
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,7 +70,7 @@ const AppNav = () => {
   };
   return (
     <div>
-        <AppBar position="static">
+      <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
@@ -58,7 +89,12 @@ const AppNav = () => {
                 textDecoration: "none",
               }}
             >
-            <img className="dashboard_logo img-fluid rounded-5" src={require("../images/Microfinance.png")} alt="" />
+              <img
+                className="dashboard_logo img-fluid rounded-5"
+                src={require("../images/Microfinance.png")}
+                alt=""
+              />
+              <p>{username}</p>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -114,7 +150,12 @@ const AppNav = () => {
                 textDecoration: "none",
               }}
             >
-             <h5 className="fs-4"> <span className="text-danger fw-bolder ">U</span><span className="text-warning fw-bolder ">M</span><span className="text-dark fw-bolder ">B</span></h5>
+              <h5 className="fs-4">
+                {" "}
+                <span className="text-danger fw-bolder ">U</span>
+                <span className="text-warning fw-bolder ">M</span>
+                <span className="text-dark fw-bolder ">B</span>
+              </h5>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
@@ -129,8 +170,14 @@ const AppNav = () => {
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                  <p onClick={handleOpenUserMenu} sx={{ p: 0 }} className="shadow  balance p-2  rounded-3">Balance : #0.00</p>
-            </Tooltip>
+                <p
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                  className="shadow  balance p-2  rounded-3"
+                >
+                  Balance : #0.00
+                </p>
+              </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -158,7 +205,7 @@ const AppNav = () => {
         </Container>
       </AppBar>
     </div>
-  )
-}
+  );
+};
 
-export default AppNav
+export default AppNav;

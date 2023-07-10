@@ -38,7 +38,7 @@ const Login = () => {
       if(response.data.message){
         toast.success("Login successful");
         localStorage.setItem("token", response.data.token)
-        dispatch(PostingSuccessful(response.data));
+        dispatch(PostingSuccessful(response.data.result));
         console.log(postingSuccess);
         setTimeout(() => {
           navigate("/dashboard");
@@ -68,12 +68,14 @@ const Login = () => {
         <div className="header">Sign In</div>
         <div className="m-3">
           <input
+          value={username}
             onChange={(e) => setusername(e.target.value)}
             placeholder="Username"
             className="input form-control w-100 "
             type="text"
           />
           <input
+          value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="input form-control w-100 mt-3 my-2"
@@ -81,6 +83,7 @@ const Login = () => {
           />
           <div className="password_div">
             <input
+            value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="input form-control w-100 my-2 p-2"

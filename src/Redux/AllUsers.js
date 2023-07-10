@@ -5,7 +5,7 @@ const initialState = {
   fetchedUser: [],
   fetchingError: null,
   isPosting: false,
-  postingSuccess: [],
+  postingSuccess: null,
   postingError: null,
 };
 
@@ -30,7 +30,7 @@ const AllUsers = createSlice({
     },
     PostingUser: (state) => {
       state.isPosting = true;
-      state.postingSuccess = [];
+      state.postingSuccess = null;
       state.postingError = null;
     },
     PostingSuccessful: (state, action) => {
