@@ -13,13 +13,13 @@ const FetchUserByToken = async (token, dispatch) => {
   try {
     const response = await axios.get(url, config);
     console.log(response);
-    const user = response.data.user;
+    console.log(response.data)
+    dispatch(fetchingSuccessful(response.data)); // Dispatch the action to update the Redux store
 
-    dispatch(fetchingSuccessful(user)); // Dispatch the action to update the Redux store
   } catch (error) {
     console.log(error);
     dispatch(fetchingFailed(error.message));
-    throw new Error("Error fetching user data"); // Throw a custom error message
+    throw new Error("Error fetching user data");// Throw a custom error message
   }
 };
 

@@ -31,10 +31,10 @@ const AppNav = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const userdata = useSelector((state) => state.AllUsers);
-  const username = userdata.username;
-  
-  console.log(username);
+  const {fetchedUser} = useSelector((state)=> state.AllUsers);
+  const userName = fetchedUser.user.username
+  console.log(userName);
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,8 +50,8 @@ const AppNav = () => {
     }
   }, [Usertoken, navigate, dispatch]);
 
+  
   // ...
-
   // navigation menu
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -89,12 +89,14 @@ const AppNav = () => {
                 textDecoration: "none",
               }}
             >
-              <img
-                className="dashboard_logo img-fluid rounded-5"
-                src={require("../images/Microfinance.png")}
-                alt=""
-              />
-              <p>{username}</p>
+              <div className="d-flex align-items-center ">
+                <img
+                  className="dashboard_logo img-fluid rounded-5"
+                  src={require("../images/Microfinance.png")}
+                  alt=""
+                />
+                <p className="mt-2 mx-2 fw-bolder">{userName}</p>
+              </div>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

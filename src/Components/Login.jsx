@@ -21,39 +21,43 @@ const Login = () => {
   const [loaddata, setloadData] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isPosting, postingSuccess, postingError } = useSelector(
+  const  fetchedUser  = useSelector(
     (state) => state.AllUsers
   ); 
 
   const signin = async (ev) => {
     ev.preventDefault();
-    setloadData(!loaddata);
-    const uri = "http://localhost:3000/user/signin";
-    const data = { username, email, password };
-
-    try {
-      dispatch(PostingUser());
-      const response = await axios.post(uri, data);
-      console.log(response);
-      if(response.data.message){
-        toast.success("Login successful");
-        localStorage.setItem("token", response.data.token)
-        dispatch(PostingSuccessful(response.data.result));
-        console.log(postingSuccess);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 5000);
-      }else{
-        toast(response.data.message);
-        dispatch(PostingFailed("Server error"));
+    if (email === "" || password === "") {
+       toast.error("input fields cannot be empty")
+    } else {
+      setloadData(!loaddata);
+      const uri = "http://localhost:3000/user/signin";
+      const data = { username, email, password };
+  
+      try {
+        dispatch(PostingUser());
+        const response = await axios.post(uri, data);
+        console.log(response);
+        if(response.data.message){
+          toast.success("Login successful");
+          localStorage.setItem("token", response.data.token)
+          dispatch(PostingSuccessful(response.data.result));
+          // console.log(fetchedUser);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 5000);
+        }else{
+          toast(response.data.message);
+          dispatch(PostingFailed("Server error"));
+        }
+       
+      } catch (error) {
+        console.log(error);
+        toast.error("Invalid Details", error);
+        dispatch(PostingFailed(error));
+      } finally {
+        setloadData(true); // Hide the loader
       }
-     
-    } catch (error) {
-      console.log(error);
-      toast.error("Invalid Details", error);
-      dispatch(PostingFailed(error));
-    } finally {
-      setloadData(true); // Hide the loader
     }
   };
 
@@ -62,16 +66,19 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+
+
+
   return (
     <div className="signup_div bg-dark py-3">
-      <form className="form mx-auto my-2  rounded-3 bg-light shadow">
+      <form autoComplete={false} className="form mx-auto my-2  rounded-3 bg-light shadow">
         <div className="header">Sign In</div>
         <div className="m-3">
           <input
           value={username}
             onChange={(e) => setusername(e.target.value)}
             placeholder="Username"
-            className="input form-control w-100 "
+            className="input form-control w-100"
             type="text"
           />
           <input
