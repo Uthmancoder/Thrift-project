@@ -7,9 +7,12 @@ import { useSelector } from "react-redux";
 const Messages = () => {
 
   const {fetchedUser} = useSelector((state)=> state.AllUsers);
-  const userName = fetchedUser.user.username
+  const userName = fetchedUser?.user.username
   const Welcomemessage = fetchedUser?.message
+  const date = fetchedUser?.user.date
+  const Time = fetchedUser?.user.time
   const message = `Hi, ${userName}! Welcome to Ultimate microfinance bank We're glad to have you on board.`;
+
 
   useEffect(() => {
     if (userName) {
@@ -26,9 +29,11 @@ const Messages = () => {
         </div>
         <div className="col-9">
           <h1>Messages</h1>
-          <div className="card border p-2 bg-light">
-            <h1 className=" fs-1 border w-fit text-center inset max-w-fit"> Welcome Mesage</h1>
-            <h1 className="text-secondary fs-5"> {message} {Welcomemessage}</h1>
+          <div className="p-2 bg-light rounded-2" style={{position : "relative"}}>
+            <h6 className=""> Welcome Mesage</h6>
+            <p className="text-secondary "> {message} {Welcomemessage}</p>
+            <p>{Time}</p>
+            <p style={{position : "absolute", right: "4%", bottom :"-10px"}}>{date}</p>
           </div>
         </div>
       </div>

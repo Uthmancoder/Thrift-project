@@ -17,6 +17,8 @@ import AllUsers from "../Redux/AllUsers";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { IoIosNotifications } from "react-icons/io";
+import { BsBookHalf } from "react-icons/bs";
 
 const AppNav = () => {
   const pages = ["Products", "Pricing", "Blog"];
@@ -31,10 +33,7 @@ const AppNav = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const {fetchedUser} = useSelector((state)=> state.AllUsers);
-  const userName = fetchedUser.user.username
-  console.log(userName);
-
+  const { fetchedUser } = useSelector((state) => state.AllUsers);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ const AppNav = () => {
     }
   }, [Usertoken, navigate, dispatch]);
 
-  
   // ...
   // navigation menu
   const handleOpenNavMenu = (event) => {
@@ -70,7 +68,7 @@ const AppNav = () => {
   };
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="sticky" className="bg-primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
@@ -91,11 +89,10 @@ const AppNav = () => {
             >
               <div className="d-flex align-items-center ">
                 <img
-                  className="dashboard_logo img-fluid rounded-5"
+                  className="dashboard_logo img-fluid  rounded-2"
                   src={require("../images/Microfinance.png")}
                   alt=""
                 />
-                <p className="mt-2 mx-2 fw-bolder">{userName}</p>
               </div>
             </Typography>
 
@@ -130,7 +127,13 @@ const AppNav = () => {
               >
                 {smallpages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography
+                      textAlign="center"
+                      component="a"
+                      href={`/${page.toLowerCase()}`}
+                    >
+                      {page}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -170,14 +173,35 @@ const AppNav = () => {
                 </Button>
               ))}
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Account">
+              <p className=" mt-2">
+                <BsBookHalf style={{ fontSize: "17px" }} />
+              </p>
+            </Tooltip>
+            <Tooltip title="Notification">
+              <p className="mx-3 mt-2">
+                <IoIosNotifications style={{ fontSize: "20px" }} />
+              </p>
+            </Tooltip>
+            <Box
+              sx={{
+                mt: 1,
+                flexGrow: 0,
+                display: { xs: "block", md: "flex" },
+                width: "50px",
+                height: "50px",
+              }}
+            >
               <Tooltip title="Open settings">
                 <p
                   onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                  className="shadow  balance p-2  rounded-3"
+                  className="shadow  balance   rounded-3"
                 >
-                  Balance : #0.00
+                  <img
+                    className="dashboard_logo img-fluid rounded-5 w-100  "
+                    src={require("../images/User.JPG")}
+                    alt=""
+                  />
                 </p>
               </Tooltip>
               <Menu

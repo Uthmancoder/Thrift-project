@@ -5,13 +5,8 @@ import AllUsers from "../Redux/AllUsers";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const [helpdeskMessages, setHelpdeskMessages] = useState([]);
   const { fetchedUser } = useSelector((state) => state.AllUsers);
-  const Welcomemessage = fetchedUser?.message;
-
-  const cachedHelpdeskMessages = useMemo(() => {
-    return helpdeskMessages;
-  }, [helpdeskMessages]);
+  const balance = fetchedUser.user?.wallet
 
   return (
     <div>
@@ -28,8 +23,8 @@ const Dashboard = () => {
           <div className="row container ">
             <div className="col-12 col-sm-12 col-md-6 col-lg-6 my-2 ">
               <div className="card p-3 bbb text-light ">
-                <h4>{cachedHelpdeskMessages.length}</h4>
-                <h4>Helpdesk Messages</h4>
+                <h4>₦{balance}.00</h4>
+                <h4>Account Balance</h4>
               </div>
             </div>
             <div className="col-12 col-sm-12 col-md-6 col-lg-6 my-2">
@@ -54,6 +49,11 @@ const Dashboard = () => {
               <div className="card p-3 bbb text-light">
                 <h4>0</h4>
                 <h4>Total Deposits</h4>
+              </div>
+            </div>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-6 my-2">
+              <div className=" p-3  text-light">
+               <img className="img-fluid w-75" src={require("../images/get.png")} alt="" />
               </div>
             </div>
           </div>

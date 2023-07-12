@@ -198,7 +198,7 @@
   bottom: 17px;
 }
 .dashboard_logo{
-  width: 10%;
+  width: 18%;
 }
 .balance{
   cursor: pointer;
@@ -249,4 +249,14 @@
     height: 93.4vh;
     padding-top: 20%;
   }
+}
+.line{
+  transform: rotate(90deg);
+  width: 17%;
+  margin: 0 -27% 0 -15%;
+}
+.line2{
+  transform: rotate(90deg);
+  width: 17%;
+  margin: 0 -17% 0 -20%;
 }
